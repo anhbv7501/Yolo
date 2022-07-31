@@ -33,6 +33,20 @@ public class Cart {
 	@JoinColumn(name="userId")
 	private User user;
 
+	@OneToMany(mappedBy = "cart")
+	@JsonIgnoreProperties(value = "cart")
+	private List<CartProductOption> cart_product_options;
+	
+	
+	
+	public List<CartProductOption> getCart_product_options() {
+		return cart_product_options;
+	}
+
+	public void setCart_product_options(List<CartProductOption> cart_product_options) {
+		this.cart_product_options = cart_product_options;
+	}
+
 	public int getCartId() {
 		return cartId;
 	}

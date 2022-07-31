@@ -48,9 +48,21 @@ public class ProductOption {
 	@JsonIgnoreProperties(value = "product_option")
 	private List<CartProduct> cart_products;
 	
-	@OneToMany(mappedBy = "receipt_product")
-	@JsonIgnoreProperties(value = "receipt_product")
+	@OneToMany(mappedBy = "product_option")
+	@JsonIgnoreProperties(value = "product_option")
 	private List<ReceiptProductOption> receipt_product_options;
+	
+	@OneToMany(mappedBy = "product_option")
+	@JsonIgnoreProperties(value = "product_option")
+	private List<CartProductOption> cart_product_options;
+
+	public List<CartProductOption> getCart_product_options() {
+		return cart_product_options;
+	}
+
+	public void setCart_product_options(List<CartProductOption> cart_product_options) {
+		this.cart_product_options = cart_product_options;
+	}
 
 	public int getProductOptionId() {
 		return productOptionId;
