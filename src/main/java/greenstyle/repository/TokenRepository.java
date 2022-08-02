@@ -4,10 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import greenstyle.entity.Token;
 import greenstyle.entity.User;
 
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface TokenRepository extends JpaRepository<Token, Integer>{
 
-	@Query("SELECT u FROM User u WHERE u.email = :username")
-	User findByUsername(@Param("username")String username);
+	@Query("SELECT t FROM Token t WHERE t.token = :token")
+	Token findByToken(@Param("token")String token);
 }
