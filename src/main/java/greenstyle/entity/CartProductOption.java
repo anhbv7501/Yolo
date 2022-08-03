@@ -19,12 +19,12 @@ public class CartProductOption {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cartProductOptionId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "cartId")
 	@JsonIgnoreProperties(value = "cart_product_options")
 	private Cart cart;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "productOptionId")
 	@JsonIgnoreProperties(value = "cart_product_options")
 	private ProductOption product_option;

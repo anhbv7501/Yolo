@@ -29,17 +29,17 @@ public class ProductOption {
 	@Column()
 	private int number;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "productId")
 	@JsonIgnoreProperties(value = "product_options")
 	private Product product;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "optionId")
 	@JsonIgnoreProperties(value = "product_options")
 	private Option option;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "optionValueId")
 	@JsonIgnoreProperties(value = "product_options")
 	private OptionValue value;

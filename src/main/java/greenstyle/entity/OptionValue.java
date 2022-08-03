@@ -29,7 +29,7 @@ public class OptionValue {
 	@Column()
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "optionId")
 	@JsonIgnoreProperties(value = "values")
 	private Option option;

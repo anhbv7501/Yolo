@@ -60,7 +60,7 @@ public class User {
 	@Column()
 	private Date date_of_birth;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "roleId")
 	@JsonIgnoreProperties(value = "users")
 	private Role role;

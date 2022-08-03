@@ -23,12 +23,12 @@ public class ReceiptProductOption {
 	@Column()
 	private int quantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "receiptProductId")
 	@JsonIgnoreProperties(value = "receipt_product_options")
 	private ReceiptProduct receipt_product;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "productOptionId")
 	@JsonIgnoreProperties(value = "receipt_product_options")
 	private ProductOption product_option;

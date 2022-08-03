@@ -26,7 +26,7 @@ public class ProductImage {
 	@Column()
 	private String fullpath;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "productId")
 	@JsonIgnoreProperties(value = "images")
 	private Product product;

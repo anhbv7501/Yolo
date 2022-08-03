@@ -23,12 +23,12 @@ public class CartProduct {
 	@Column()
 	private int quantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "cartId")
 	@JsonIgnoreProperties(value = "cart_products")
 	private Cart cart;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "productOptionId")
 	@JsonIgnoreProperties(value = "cart_products")
 	private ProductOption product_option;

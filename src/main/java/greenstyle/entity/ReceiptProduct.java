@@ -28,7 +28,7 @@ public class ReceiptProduct {
 	@Column()
 	private Double unit_price;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "receiptId")
 	@JsonIgnoreProperties(value = "receipt_products")
 	private Receipt receipt;

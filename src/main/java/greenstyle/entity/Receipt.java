@@ -41,7 +41,7 @@ public class Receipt {
 	@Column()
 	private String status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "userId")
 	@JsonIgnoreProperties(value = "receipts")
 	private User user;
