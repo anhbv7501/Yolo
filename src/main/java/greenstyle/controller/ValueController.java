@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import greenstyle.dto.CreateOptionDTO;
 import greenstyle.dto.CreateValueDTO;
+import greenstyle.dto.Message;
+import greenstyle.dto.ResponseData;
 import greenstyle.dto.UpdateOptionDTO;
 import greenstyle.dto.UpdateValueDTO;
+import greenstyle.dto.ValueData;
 import greenstyle.entity.Option;
 import greenstyle.entity.OptionValue;
 import greenstyle.service.OptionService;
 import greenstyle.service.ValueService;
 
 @RestController
-@RequestMapping("/api/option-value")
+@RequestMapping("/api/v1/admin/option-value")
 public class ValueController {
 
 	@Autowired
@@ -30,25 +33,58 @@ public class ValueController {
 	
 
 	@GetMapping("/{id}")
-	public OptionValue getOne(@PathVariable(name="id") int id) {
-		return valueService.getOne(id);
+	public ResponseData getOne(@PathVariable(name="id") int id) {
+		OptionValue value =  valueService.getOne(id);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		ValueData valuesData  = new ValueData();
+		valuesData.setMessage("");
+		valuesData.setValues(value);
+		response.setPayload(valuesData);
+		response.setError(null);
+		return response;
 	}
 	
-	@PostMapping("/create")
-	public OptionValue create(@RequestBody CreateValueDTO data) {
-		return valueService.create(data);
+	@PostMapping()
+	public ResponseData create(@RequestBody CreateValueDTO data) {
+		OptionValue value = valueService.create(data);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		ValueData valuesData  = new ValueData();
+		valuesData.setMessage("Tao moi noi dung danh muc thanh cong");
+		valuesData.setValues(value);
+		response.setPayload(valuesData);
+		response.setError(null);
+		return response;
 	}
 	
-	@PutMapping("/update/{id}")
-	public OptionValue update(@PathVariable(name="id") int id,@RequestBody UpdateValueDTO data) {
-		return valueService.update(id,data);
+	@PutMapping("/{id}")
+	public ResponseData update(@PathVariable(name="id") int id,@RequestBody UpdateValueDTO data) {
+		OptionValue value = valueService.update(id,data);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		ValueData valuesData  = new ValueData();
+		valuesData.setMessage("Tao moi noi dung danh muc thanh cong");
+		valuesData.setValues(value);
+		response.setPayload(valuesData);
+		response.setError(null);
+		return response;
 	}
 	@DeleteMapping("/delete/{id}")
-	public String delete(@PathVariable(name="id") int id){
+	public ResponseData delete(@PathVariable(name="id") int id){
 		Boolean success = valueService.delete(id);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		
 		if(!success) {
-			return "Xoa that bai";
+			Message mes  = new Message();
+			mes.setMessage("Xoa thanh cong");
+			response.setPayload(mes);
+			response.setError(null);
+		}else {
+			response.setPayload(null);
+			response.setError("Xoa that bai");
 		}
-		return "Xoa thanh cong";
+		return response;
 	}
 }

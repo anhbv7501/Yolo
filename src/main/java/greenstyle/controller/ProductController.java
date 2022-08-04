@@ -14,35 +14,71 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import greenstyle.dto.CreateProductDTO;
+import greenstyle.dto.Message;
+import greenstyle.dto.ResponseData;
+import greenstyle.dto.ValueData;
 import greenstyle.entity.Product;
 import greenstyle.service.ProductService;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/v1/admin/product")
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
 	
 	@GetMapping("/show")
-	public List<Product> getAll() {
-		return productService.getAll();
+	public ResponseData getAll() {
+		List<Product> list =  productService.getAll();
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		ValueData valuesData  = new ValueData();
+		valuesData.setMessage("");
+		valuesData.setValues(list);
+		response.setPayload(valuesData);
+		response.setError(null);
+		return response;
 	}
 	@GetMapping("/{id}")
-	public Product getOne(@PathVariable(name="id") int id) {
-		return productService.getOne(id);
+	public ResponseData getOne(@PathVariable(name="id") int id) {
+		Product product =  productService.getOne(id);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		ValueData valuesData  = new ValueData();
+		valuesData.setMessage("");
+		valuesData.setValues(product);
+		response.setPayload(valuesData);
+		response.setError(null);
+		return response;
 	}
 	
-	@PostMapping("/create")
-	public Product create(@RequestBody CreateProductDTO data) {
-		return productService.create(data);
+	@PostMapping()
+	public ResponseData create(@RequestBody CreateProductDTO data) {
+		Product product =   productService.create(data);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		ValueData valuesData  = new ValueData();
+		valuesData.setMessage("Tao moi san pham thanh cong");
+		valuesData.setValues(product);
+		response.setPayload(valuesData);
+		response.setError(null);
+		return response;
 	}
-	@DeleteMapping("/delete/{id}")
-	public String delete(@PathVariable(name="id") int id){
+	@DeleteMapping("/{id}")
+	public ResponseData delete(@PathVariable(name="id") int id){
 		Boolean success = productService.delete(id);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		
 		if(!success) {
-			return "Xoa that bai";
+			Message mes  = new Message();
+			mes.setMessage("Xoa thanh cong");
+			response.setPayload(mes);
+			response.setError(null);
+		}else {
+			response.setPayload(null);
+			response.setError("Xoa that bai");
 		}
-		return "Xoa thanh cong";
+		return response;
 	}
 }

@@ -14,42 +14,79 @@ import org.springframework.web.bind.annotation.RestController;
 
 import greenstyle.dto.CreateOptionDTO;
 import greenstyle.dto.CreateProductDTO;
+import greenstyle.dto.Message;
+import greenstyle.dto.ResponseData;
 import greenstyle.dto.UpdateOptionDTO;
 import greenstyle.entity.Option;
 import greenstyle.entity.Product;
 import greenstyle.service.OptionService;
 
 @RestController
-@RequestMapping("/api/option")
+@RequestMapping("/api/v1/admin/option")
 public class OptionController {
 
 	@Autowired
 	private OptionService optionService;
 	
 	@GetMapping()
-	public List<Option> getAll() {
-		return optionService.getAll();
+	public ResponseData getAll() {
+		
+		List<Option> option =  optionService.getAll();
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		response.setPayload(option);
+		response.setError(null);
+		return response;
 	}
 	@GetMapping("/{id}")
-	public Option getOne(@PathVariable(name="id") int id) {
-		return optionService.getOne(id);
+	public ResponseData getOne(@PathVariable(name="id") int id) {
+		Option option =  optionService.getOne(id);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		response.setPayload(option);
+		response.setError(null);
+		return response;
 	}
 	
-	@PostMapping("/create")
-	public Option create(@RequestBody CreateOptionDTO data) {
-		return optionService.create(data);
+	@PostMapping()
+	public ResponseData create(@RequestBody CreateOptionDTO data) {
+		optionService.create(data);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		Message mes  = new Message();
+		mes.setMessage("Tao moi danh muc thanh cong");
+		response.setPayload(mes);
+		response.setError(null);
+		return response;
 	}
 	
-	@PutMapping("/update/{id}")
-	public Option update(@PathVariable(name="id") int id,@RequestBody UpdateOptionDTO data) {
-		return optionService.update(id,data);
+	@PutMapping("/{id}")
+	public ResponseData update(@PathVariable(name="id") int id,@RequestBody UpdateOptionDTO data) {
+		optionService.update(id,data);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		Message mes  = new Message();
+		mes.setMessage("Tao moi danh muc thanh cong");
+		response.setPayload(mes);
+		response.setError(null);
+		return response;
+		
 	}
-	@DeleteMapping("/delete/{id}")
-	public String delete(@PathVariable(name="id") int id){
+	@DeleteMapping("/{id}")
+	public ResponseData delete(@PathVariable(name="id") int id){
 		Boolean success = optionService.delete(id);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		
 		if(!success) {
-			return "Xoa that bai";
+			Message mes  = new Message();
+			mes.setMessage("Xoa thanh cong");
+			response.setPayload(mes);
+			response.setError(null);
+		}else {
+			response.setPayload(null);
+			response.setError("Xoa that bai");
 		}
-		return "Xoa thanh cong";
+		return response;
 	}
 }

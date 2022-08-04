@@ -19,5 +19,12 @@
 -Admin:  
 +Done:  
 +Doing:Login,Resgister  
-token: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
+#Swagger  
+http://localhost:8080/swagger-ui.html#/  
+#Config database  
+src/main/resources/applocation  
+spring.datasource.url=jdbc:mysql://localhost:3306/yolodb  
+spring.datasource.username=root  
+spring.datasource.password=1234  
+
  
