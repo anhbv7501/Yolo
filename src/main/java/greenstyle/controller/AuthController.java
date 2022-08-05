@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import greenstyle.config.JwtUtil;
 import greenstyle.config.UserPrincipal;
+import greenstyle.dto.LoginDTO;
+import greenstyle.dto.Message;
+import greenstyle.dto.ResponseData;
 import greenstyle.dto.UserDTO;
+import greenstyle.dto.ValueData;
 import greenstyle.entity.Token;
 import greenstyle.entity.User;
 import greenstyle.service.TokenService;
 import greenstyle.service.UserService;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1")
 public class AuthController {
 
 	@Autowired
@@ -37,16 +41,31 @@ public class AuthController {
 	public ResponseEntity hello(){
 	    return ResponseEntity.ok("hello");
 	}
-	@PostMapping("/register")
-	public User register(@RequestBody UserDTO user) {
+	
+	@PostMapping("/user/auth/register")
+	public ResponseData register(@RequestBody UserDTO user) {
 		User newUser = new User();
-		newUser.setEmail(user.getUsername());
+		newUser.setEmail(user.getEmail());
 		newUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-		return userService.createUser(newUser);
+		newUser.setAddress(user.getAddress());
+		newUser.setFirst_name(user.getFirst_name());
+		newUser.setLast_name(user.getLast_name());
+		newUser.setGender(user.getGender());
+		newUser.setPhone(user.getPhone());
+		newUser.setId_card(user.getId_card());
+		newUser.setDate_of_birth(user.getDate_of_birth());
+		userService.createUser(newUser);
+		ResponseData response = new ResponseData();
+		response.setSuccess(true);
+		Message mes  = new Message();
+		mes.setMessage("Tao moi nguoi dung thanh cong");
+		response.setPayload(mes);
+		response.setError(null);
+		return response;
 	}
 	
-	 @PostMapping("/login")
-	    public ResponseEntity<?> login(@RequestBody UserDTO user){
+	 @PostMapping("/user/auth/login")
+	    public ResponseEntity<?> login(@RequestBody LoginDTO user){
 	        UserPrincipal userPrincipal = userService.findByUsername(user.getUsername());
 	        if (null == user || !new BCryptPasswordEncoder().matches(user.getPassword(), userPrincipal.getPassword())) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
