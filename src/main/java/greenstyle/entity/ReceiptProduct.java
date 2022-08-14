@@ -37,6 +37,14 @@ public class ReceiptProduct {
 	@JsonIgnoreProperties(value = "receipt_product")
 	private List<ReceiptProductOption> receipt_product_options;
 
+	public int getId() {
+		return receiptProductId;
+	}
+
+	public void setId(int id) {
+		this.receiptProductId = id;
+	}
+
 	public int getReceiptProductId() {
 		return receiptProductId;
 	}

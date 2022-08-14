@@ -29,6 +29,14 @@ public class CartProductOption {
 	@JsonIgnoreProperties(value = "cart_product_options")
 	private ProductOption product_option;
 
+	public int getId() {
+		return cartProductOptionId;
+	}
+
+	public void setId(int id) {
+		this.cartProductOptionId = id;
+	}
+
 	public int getCartProductOptionId() {
 		return cartProductOptionId;
 	}

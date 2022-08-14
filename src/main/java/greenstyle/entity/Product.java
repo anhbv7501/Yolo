@@ -43,6 +43,14 @@ public class Product {
 	@JsonIgnoreProperties(value = "product")
 	private List<ProductOption> product_options;
 
+	public int getId() {
+		return productId;
+	}
+
+	public void setId(int id) {
+		this.productId = id;
+	}
+
 	public int getProductId() {
 		return productId;
 	}

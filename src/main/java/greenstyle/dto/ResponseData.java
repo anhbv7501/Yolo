@@ -5,6 +5,17 @@ public class ResponseData {
 	private boolean success;
 	private Object payload;
 	private String error;
+	
+	public ResponseData() {	
+	}
+	
+	public ResponseData(boolean success, Object payload, String error) {
+		super();
+		this.success = success;
+		this.payload = payload;
+		this.error = error;
+	}
+
 	public boolean isSuccess() {
 		return success;
 	}

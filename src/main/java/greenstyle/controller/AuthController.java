@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import greenstyle.config.JwtUtil;
 import greenstyle.config.UserPrincipal;
 import greenstyle.dto.LoginDTO;
+import greenstyle.dto.LoginResponse;
 import greenstyle.dto.Message;
+import greenstyle.dto.ResUserDTO;
 import greenstyle.dto.ResponseData;
 import greenstyle.dto.UserDTO;
 import greenstyle.dto.ValueData;
@@ -23,6 +26,7 @@ import greenstyle.entity.User;
 import greenstyle.service.TokenService;
 import greenstyle.service.UserService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
 public class AuthController {
@@ -65,16 +69,25 @@ public class AuthController {
 	}
 	
 	 @PostMapping("/user/auth/login")
-	    public ResponseEntity<?> login(@RequestBody LoginDTO user){
+	    public ResponseData login(@RequestBody LoginDTO user){
 	        UserPrincipal userPrincipal = userService.findByUsername(user.getUsername());
 	        if (null == user || !new BCryptPasswordEncoder().matches(user.getPassword(), userPrincipal.getPassword())) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
+	        	ResponseData error = new ResponseData(false,null,"login false");
+	            return error;
 	        }
 	        Token token = new Token();
 	        token.setToken(jwtUtil.generateToken(userPrincipal));
 	        token.setTokenExpDate(jwtUtil.generateExpirationDate());
 	        tokenService.createToken(token);
-	        return ResponseEntity.ok(token.getToken());
+	        User dataUser = userService.findUser(user.getUsername());
+	        LoginResponse  res = new LoginResponse();
+	        ResUserDTO userDto = new ResUserDTO(dataUser);
+	        res.setUser(userDto);res.setToken(token.getToken());
+	    	ResponseData response = new ResponseData();
+			response.setSuccess(true);
+			response.setPayload(res);
+			response.setError(null);
+	        return response;
 	    }
 	
 	

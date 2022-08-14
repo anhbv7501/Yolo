@@ -47,6 +47,16 @@ public class Cart {
 		this.cart_product_options = cart_product_options;
 	}
 
+	
+	
+	public int getId() {
+		return cartId;
+	}
+
+	public void setId(int id) {
+		this.cartId = id;
+	}
+
 	public int getCartId() {
 		return cartId;
 	}

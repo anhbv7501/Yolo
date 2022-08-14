@@ -1,9 +1,14 @@
 package greenstyle.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import greenstyle.config.UserPrincipal;
+import greenstyle.dto.ChangeStatusDTO;
+import greenstyle.entity.Product;
 import greenstyle.entity.User;
 import greenstyle.repository.UserRepository;
 
@@ -30,4 +35,27 @@ public class UserService {
         }
         return userPrincipal;
 	}
+	public User findUser(String username) {
+		User user = userRepo.findByUsername(username);        
+        return user;
+	}
+	
+	public List<User> getAll() {
+		return userRepo.findAll();
+	}
+	
+	public User changeStatus(int id,ChangeStatusDTO data) {
+		Optional<User> op = this.userRepo.findById(id);
+		User user = new User();
+		if(op.isPresent()) {
+			user = op.get();
+			user.setStatus(data.getStatus());
+			this.userRepo.save(user);
+		}
+		return user;
+	}
+	
+	
+	
 }
+

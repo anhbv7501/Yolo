@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import greenstyle.dto.ResFile;
 import greenstyle.dto.ResponseData;
 import greenstyle.dto.UploadFileDTO;
+
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
 @RequestMapping("/api/v1")
@@ -38,7 +42,7 @@ public class FileController {
 	        try (OutputStream os = Files.newOutputStream(file)) {
 	            os.write(image.getBytes());
 	        }
-        	System.out.println(CURRENT_FOLDER);
+        	System.out.println(imagePath.resolve(image.getOriginalFilename()).toString());
 		ResponseData response = new ResponseData();
 		ResFile resFile = new ResFile();
 		resFile.setMessage("Upload file successfully");
@@ -62,7 +66,7 @@ public class FileController {
 	        try (OutputStream os = Files.newOutputStream(file)) {
 	            os.write(image.getBytes());
 	        }
-        	System.out.println(CURRENT_FOLDER);
+        	System.out.println(imagePath.resolve(image.getOriginalFilename()).toString());
 		ResponseData response = new ResponseData();
 		ResFile resFile = new ResFile();
 		resFile.setMessage("Upload file successfully");

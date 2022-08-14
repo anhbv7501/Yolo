@@ -30,6 +30,23 @@ public class Role {
 	@JsonIgnoreProperties(value = "role")
 	private List<User> users;
 
+	
+	public int getId() {
+		return roleId;
+	}
+
+	public void setId(int id) {
+		this.roleId = id;
+	}
+
+	public String getRoleKeys() {
+		return roleKeys;
+	}
+
+	public void setRoleKeys(String roleKeys) {
+		this.roleKeys = roleKeys;
+	}
+
 	public int getRoleId() {
 		return roleId;
 	}

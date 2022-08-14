@@ -50,6 +50,14 @@ public class Receipt {
 	@JsonIgnoreProperties(value = "receipt")
 	private List<ReceiptProduct> receipt_products;
 
+	public int getId() {
+		return receiptId;
+	}
+
+	public void setId(int id) {
+		this.receiptId = id;
+	}
+
 	public int getReceiptId() {
 		return receiptId;
 	}

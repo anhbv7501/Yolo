@@ -1,8 +1,10 @@
 package greenstyle.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import greenstyle.dto.CreateOptionDTO;
 import greenstyle.dto.CreateProductDTO;
+import greenstyle.dto.DataResponse;
 import greenstyle.dto.Message;
+import greenstyle.dto.ResOptionDTO;
 import greenstyle.dto.ResponseData;
 import greenstyle.dto.UpdateOptionDTO;
 import greenstyle.entity.Option;
 import greenstyle.entity.Product;
 import greenstyle.service.OptionService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/admin/option")
 public class OptionController {
@@ -31,10 +36,20 @@ public class OptionController {
 	@GetMapping()
 	public ResponseData getAll() {
 		
-		List<Option> option =  optionService.getAll();
+		List<Option> options =  optionService.getAll();
+		List<ResOptionDTO> list =  new ArrayList<ResOptionDTO>();
+		for(Option op : options) {
+			list.add(new ResOptionDTO(op));
+		}
 		ResponseData response = new ResponseData();
 		response.setSuccess(true);
-		response.setPayload(option);
+		DataResponse data  = new DataResponse();
+		data.setData(list);
+		data.setPage(1);
+		data.setLimit(5);
+		data.setTotal(2);
+		data.setTotal_record(2);
+		response.setPayload(data);
 		response.setError(null);
 		return response;
 	}

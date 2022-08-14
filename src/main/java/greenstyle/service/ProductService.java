@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import greenstyle.dto.CreateProductDTO;
 import greenstyle.dto.ProductOptionDTO;
+import greenstyle.dto.ResProduct;
 import greenstyle.entity.Product;
 import greenstyle.entity.ProductImage;
 import greenstyle.entity.ProductOption;
@@ -61,13 +62,16 @@ public class ProductService {
 		return this.productRepo.findAll();	
 	}
 	
-	public Product getOne(int id) {
+	public ResProduct getOne(int id) {
 		Optional<Product> op = this.productRepo.findById(id);
 		Product product = new Product();
 		if(op.isPresent()) {
-			product = op.get();
+			System.out.println(op.get().getName());
+			ResProduct res = new ResProduct(op.get());
+			return res;
 		}
-		return product;
+		ResProduct res = new ResProduct(product);
+		return res;
 	}
 	
 	public Product create(CreateProductDTO data) {

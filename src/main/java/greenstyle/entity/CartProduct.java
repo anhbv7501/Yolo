@@ -33,6 +33,14 @@ public class CartProduct {
 	@JsonIgnoreProperties(value = "cart_products")
 	private ProductOption product_option;
 
+	public int getId() {
+		return cartProductId;
+	}
+
+	public void setId(int id) {
+		this.cartProductId = id;
+	}
+
 	public int getCartProductId() {
 		return cartProductId;
 	}

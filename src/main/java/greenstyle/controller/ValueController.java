@@ -1,8 +1,10 @@
 package greenstyle.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,19 +20,22 @@ import greenstyle.dto.Message;
 import greenstyle.dto.ResponseData;
 import greenstyle.dto.UpdateOptionDTO;
 import greenstyle.dto.UpdateValueDTO;
+import greenstyle.dto.ValueDTO;
 import greenstyle.dto.ValueData;
 import greenstyle.entity.Option;
 import greenstyle.entity.OptionValue;
 import greenstyle.service.OptionService;
 import greenstyle.service.ValueService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/admin/option-value")
 public class ValueController {
 
 	@Autowired
 	private ValueService valueService;
-	
+	@Autowired
+	private OptionService optionService;
 
 	@GetMapping("/{id}")
 	public ResponseData getOne(@PathVariable(name="id") int id) {
@@ -48,11 +53,16 @@ public class ValueController {
 	@PostMapping()
 	public ResponseData create(@RequestBody CreateValueDTO data) {
 		OptionValue value = valueService.create(data);
+		List<ValueDTO> listvalueDto = new ArrayList<ValueDTO>();
+		Option option = optionService.getOne(data.getOptionId());
+		for(OptionValue item : option.getValues()) {
+			listvalueDto.add( new ValueDTO(item));
+		}
 		ResponseData response = new ResponseData();
 		response.setSuccess(true);
 		ValueData valuesData  = new ValueData();
 		valuesData.setMessage("Tao moi noi dung danh muc thanh cong");
-		valuesData.setValues(value);
+		valuesData.setValues(listvalueDto);
 		response.setPayload(valuesData);
 		response.setError(null);
 		return response;
@@ -61,11 +71,16 @@ public class ValueController {
 	@PutMapping("/{id}")
 	public ResponseData update(@PathVariable(name="id") int id,@RequestBody UpdateValueDTO data) {
 		OptionValue value = valueService.update(id,data);
+		List<ValueDTO> listvalueDto = new ArrayList<ValueDTO>();
+		Option option = optionService.getOne(data.getOptionId());
+		for(OptionValue item : option.getValues()) {
+			listvalueDto.add( new ValueDTO(item));
+		}
 		ResponseData response = new ResponseData();
 		response.setSuccess(true);
 		ValueData valuesData  = new ValueData();
-		valuesData.setMessage("Tao moi noi dung danh muc thanh cong");
-		valuesData.setValues(value);
+		valuesData.setMessage("Cap nhat noi dung danh muc thanh cong");
+		valuesData.setValues(listvalueDto);
 		response.setPayload(valuesData);
 		response.setError(null);
 		return response;

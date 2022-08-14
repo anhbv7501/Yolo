@@ -31,6 +31,15 @@ public class ProductImage {
 	@JsonIgnoreProperties(value = "images")
 	private Product product;
 
+	
+	public int getId() {
+		return productImageId;
+	}
+
+	public void setId(int id) {
+		this.productImageId = id;
+	}
+
 	public int getProductImageId() {
 		return productImageId;
 	}

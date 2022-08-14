@@ -11,6 +11,6 @@ import greenstyle.entity.User;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer>{
 
-	@Query("SELECT r FROM Receipt r WHERE r.user.userId = :id")
+	@Query("SELECT r FROM Receipt r WHERE r.user.id = :id")
 	List<Receipt> findByUser(@Param("id")Integer id);
 }
